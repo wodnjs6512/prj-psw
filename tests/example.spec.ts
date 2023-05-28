@@ -1,8 +1,7 @@
 import { test, expect, Locator } from "@playwright/test";
 
-const 오픈_시간 = "2023-05-28 10:00:00";
-// const 예약날짜 = "2023-06-26";
-const 예약날짜 = "2023-06-12";
+const 오픈_시간 = "2023-05-29 09:00:00";
+const 예약날짜 = "2023-06-19";
 const 최소_시간 = 10;
 
 test("스피드예약 로그인", async ({ page }) => {
@@ -22,19 +21,12 @@ test("스피드예약 로그인", async ({ page }) => {
 
   await page.locator(`id=A${예약날짜.replace(/-/gi, "")}`).click();
 
-  await page
-    // NOTE: 여기는 코스명을 정확하게 카피 해줘야합니다.
-    // .locator('h5:has-text("클럽72 하늘")')
-    .locator('h5:has-text("클럽72 바다 레이크")')
-    // <<<<<<<<<<<<<<<<<<<<<<<<<<<
-    .locator("button")
-    .click();
+  await page.locator('h5:has-text("클럽72 하늘")').locator("button").click();
 
   let list: Locator | null = null;
   let cnt = 최소_시간;
 
-  const base = await page.locator("[data-name='company_list_J57_1']");
-  // .locator("[data-name='company_list_7']")
+  const base = await page.locator("[data-name='company_list_7']");
 
   while (!list) {
     const test = await base
@@ -57,7 +49,7 @@ test("스피드예약 로그인", async ({ page }) => {
     } else {
       cnt++;
     }
-    if (cnt > 24) throw Error();
+    if (cnt > 20) throw Error();
   }
   await list.locator("button").first().click();
 
